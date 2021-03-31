@@ -1,0 +1,25 @@
+Ejercicio 11
+Actualizar el archivo de clientes a partir del archivo de movimientos considerando los siguientes códigos de movimiento: 
+1: alta; (acumuladores de compra, pago y saldo en 0) 
+2: modificación (sólo de nombre)
+3: compra
+4: pago
+5: baja
+
+  	Las compras deberán sumar el importe de movimientos al acumulado de compras y al saldo, actualizando correctamente la fecha de última compra (se deberá verificar si la fecha del movimiento es mayor a la que ya figura en el maestro)
+El importe de pagos se sumará al acumulado de pagos y se restará del saldo, actualizando también correctamente la fecha de último pago.
+Por fin de proceso se desean conocer los 20 clientes (zona y nro de cliente) de mayor saldo.
+
+CLIENTES                              MOVIMIENTOS
+-REG-C                                   -REG-M
+.CLAVE-C                                .CLAVE-M
+..ZONA-C                                ..ZONA-M
+..NRO-CLI-C                          ..NRO-CLI-M
+.NOMBRE-C                           ..CODIGO-MOV
+.ACUMULADO-PAGOS          .NOMBRE-M
+.MONTO-ULTIMO-PAGO      .FECHA-M
+.FECHA-ULTIMO-PAGO       .IMPORTE-M                                   
+.ACUMULADO-COMPRAS
+.MONTO-ULTIMA-COMPRA
+.FECHA-ULTIMA-COMPRA
+.SALDO

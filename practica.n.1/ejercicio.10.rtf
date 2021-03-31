@@ -1,0 +1,23 @@
+Ejercicio 10
+ Actualizar el ARCHIVO-CREDITO Y el de CUOTAS POR CREDITO 
+
+ARCHIVO-CREDITO				ARCHIVO-NOVEDAD
+-REG-C						-REG-N
+.CLAVE-C						.CLAVE-N
+..NRO							..NRO-N
+.NOMBRE						.CODIGO-N 
+.TIPO-CREDITO					.TIPO-CREDITO-N
+.CANTIDAD-CUOTAS-PAGAS			.FECHA-N
+.MONTO-PAGO-CUOTAS				.MONTO-N
+.FECHA-ULTIMA-CUOTA.PAGA		.CUOTA-NRO
+
+ARCHIVO-TIPO-CREDITO		ARCHIVO-CUOTAS-POR-CREDITO
+-REG.T					-REG-CP
+.TIPO-CR					.CLAVE-CP
+.CANTIDAD-CUOTAS			..NRO-CP
+						..CUOTA-NRO-CP
+						.FECHA-CUOTA
+						.MONTO-CUOTA
+
+Los códigos de movimiento son 1: alta, 2:baja, 3:modificación, 4:pago. A partir del ARCHIVO-NOVEDAD se actualizarán los archivos CREDITO y CUOTAS POR CREDITO.  En caso de alta, simplemente se da de alta un registro en el CREDITO.  Las modificaciones sólo alteran el nombre o el tipo de crédito. Los pagos deben actualizar los campos del maestro y dar de alta en cuotas por crédito (UN REGISTRO POR CADA PAGO DE CUOTA EFECTUADO). Al  efectivizarse una baja se  la listará indicando cuántas cuotas debe.  El archivo TIPO CREDITO servirá para consultar la existencia del tipo de crédito modificado o dado de alta y para conocer la cantidad de cuotas asociada al crédito. Tiene 12 registros como máximo
+	Se rechazarán novedades por altas ya existentes en CREDITOS, bajas , modificaciones o pagos a CREDITOS inexistentes, novedades de código erróneo, pagos a nros. de cuotas  mayores a la cantidad de cuotas asociada al tipo de crédito, tipos de crédito inexistentes.

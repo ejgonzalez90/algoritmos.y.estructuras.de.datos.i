@@ -1,0 +1,41 @@
+Universidad CAECE
+
+Estructura de Datos - Archivos Secuenciales
+
+Definiciones:
+Un archivo es una colección de registros lógicamente relacionados, un registro es una colección finita y ordenada de elementos llamados campos en donde se almacena la información. En particular los archivos secuenciales que vamos a manejar en el curso tienen una estructura jerárquica y se especifican de la siguiente forma:
+
+
+Archivo_Alumnos
+	-Registro_Alumno
+		.Matrícula
+		.Apellido
+		.Nombre
+		.Dirección
+			..Calle
+			..Nro
+		.Carrera
+
+Cada campo del registro es un ítem de dato, en el caso del campo Dirección es un ítem de grupo ya que está compuesto por Calle y Nro, esto implica que si tengo que informar la Dirección estaré informando Calle y Nro, pero si me piden informar solo la Calle lo deberé hacer de la siguiente forma:
+
+Registro_Alumno.Dirección.Calle
+
+Para poder trabajar con archivos secuenciales vamos a definir los siguientes operadores:
+1)Abrir( Archivo)
+2)Leer( Archivo, Registro)
+3)Grabar ( Archivo, Registro)
+4)Cerrar ( Archivo)Para mostrar como recorrer un archivo secuencial desarrollamos el siguiente ejercicio:
+
+-Dado el Archivo_Alumnos escribir un Informe de Alumnos cuya matrícula sea superior a 90.000 detallando: Matrícula, Apellido, Nombre y Carrera
+
+Algoritmo Informe de Alumnos
+Cmax:90.000
+Abrir (Archivo_Alumnos)
+Leer (Archivo_Alumnos, Registro_Alumno)
+Mientras No Fin(Archivo_Alumnos) hacer
+	Si Registro_Alumno.Matrícula > Cmax entonces
+		Mostrar( Registro_Alumno.Matrícula, Registro_Alumno.Apellido, Registro_Alumno.Nombre, Registro_Alumno.Carrera)
+	Fsi
+	Leer(Archivo_Alumnos, Registro_Alumno)
+Fmientras
+Cerrar(Archivo_alumnos)FAlgoritmo
