@@ -1,0 +1,111 @@
+Ejercicio 1
+
+a) Leer una secuencia que contiene una frase. Las palabras están separadas por un blanco. Informar cuántas palabras fueron ingresadas y  grabarlas en una secuencia de salida.
+b) Grabar en la secuencia  sólo aquellas palabras con más de una determinada cantidad de letras que se debe pedir al operador al comienzo del proceso. Informar cuantas fueron.
+
+- Utilización de operadores específicos:  LeerPrim(Sec, elem), Fin(Sec), Leersig(Sec, ele), Preparar(sec); Escribir(sec, elem), Marcar(Sec).
+
+Algoritmo Ejericio1
+Constantes
+    separador:          caracter <- " "
+    max:                entero <- 40
+Variables
+    SecE:               secuencia de caracteres
+    cantidadLetras, cp, total:
+                        entero
+    ant, c:             caracter
+    aux:                arreglo de caracteres de max longitud
+    error:              booleano
+Inicio
+    IngresarEntero(cantidadLetras)
+    ant <- separador
+    cp <- 0
+    total <- 0
+    error <- falso
+    Preparar(SecS)
+    LeerPrim(SecE, c)
+    Mientras No Fin(SecE) y No(error) hacer
+        Si(EsInicio(ant, c)) entonces
+            TratarPalabra(aux, cp, error)    
+        SiNo
+            Si(EsMedio(ant, c)) entonces
+                TratarPalabra(aux, cp, error)
+            SiNo
+                Si(EsFin(ant, c)) entonces
+                    TratarFin(SecS, aux, cp, cantidadLetras, total)
+                FinSi
+            FinSi
+        FinSi
+        ant <- c
+        Leersig(SecE, c)
+    FinMientras
+    Si No(Error) entonces
+        TratarFin(SecS, aux, cp, cantidadLetras, total)
+        Marcar(SecS)
+        Mostrar("Se grabaron " + total + " palabras.")
+    SiNo
+        Mostrar("Error")
+    FinSi
+FinAlgoritmo
+
+Funcion EsInicio(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant = separador y c != separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFncion
+
+Funcion EsMedio(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant != separador y c != separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFuncion
+
+Funcion EsFin(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant != separador y c = separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFuncion
+
+Proceimiento IngresarEntero(ref valor entero)
+Inicio
+    Repetir
+        Mostrar("Ingresar entero: ")
+        Ingresar(valor)
+    hasta que entero > 0
+FinProcedimiento
+
+Procedimiento TratarPalabra(ref A tarreglocaracter, ref CE entero, ref error booleano)
+Inicio
+    CE <- CE + 1
+    Si CE <= max entonces
+        A[CE] <- c
+    SiNo
+        error <- verdadero
+    FinSi
+Fin
+
+Procedimiento TratarFin(ref SecS tSecuencia, ref A tarreglocaracter, val CE entero, val cantidadLetras entero, ref total entero)
+Inicio
+    Si(cp > cantidadLetras) entonces
+        total <- total + 1
+        Para i <- 1 hasta CE hacer
+            Escribir(SecS, A[i])
+        FinPara
+    FinSi
+    CE <- 0
+FinProcedimiento
