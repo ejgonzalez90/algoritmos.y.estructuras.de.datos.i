@@ -8,3 +8,147 @@ ARCHIVO-PRODUCCION
 
 a)	Modificar el enunciado del ejercicio para convertir la tabla de códigos de zonas en una tabla de caso 1. Y la de razas en una tabla de caso 3. 
 
+Ejemplo de entrada:
+
+Zona1	Raza1	10
+Zona1	Raza2	20
+Zona1	Raza3	30
+Zona2	Raza1	40
+Zona2	Raza2	50
+Zona2	Raza3	60
+
+Ejemplo arreglo de Zonas:
+["Zona1", "Zona2"]
+
+Ejemplo arreglo de Razas:
+["Raza1", "Raza2"]
+
+Ejemplo Matriz resultante:
+
+|	10	20	30	|
+|	40	50	60	|
+
+Constantes
+	maxZonas:				entero <- 4
+	maxRazas:				entero <- 6
+
+Tipos
+	mProduccion:		Matriz de relaes de maxZonas filas y maxRazas columnas 
+	registroProduccion:	REG-PRODUCCION
+	tarreglocadena:		Arreglo de cadena de caracteres
+	tarregloreal:		Arreglo de reales
+
+Algoritmo LeerProduccion
+Variables
+	mProduccion:			mProduccion
+	registroProduccion:		registroProduccion
+	zonas:					tarregloentero de maxZonas max longitud
+	razas:					tarregloentero de maxRazas max longitud
+	CEZonas, CERazas:		entero
+	posZona, posRaza:		entero
+	promedioZona, promedioRaza, auxZona, auxZonaRaza:			real
+	minZona, maxZona, maxRaza:		entero
+	i, k:							entero
+Inicio
+	InicializarMatrizProduccion(mProduccion)
+	
+	CEZonas <- 0
+	CERazas <- 0
+
+	Abrir(ARCHIVO-PRODUCCION)
+	
+	Leer(ARCHIVO-PRODUCCION, registroProduccion)
+	Mientras No Fin(ARCHIVO-PRODUCCION) hacer
+		InsertarUnico(registroProduccion.ZONA, zonas, CEZonas, maxZonas, posZona)
+		InsertarUnico(registroProduccion.RAZA, razas, CERazas, maxRazas, posRaza)
+		mProduccion[posZona, posRaza] <- registroProduccion.PRODUCCION-PROMEDIO 
+		Leer(ARCHIVO-PRODUCCION, registroProduccion)
+	FinMientras
+	Cerrar(ARCHIVO-PRODUCCION)
+
+	// Promedio por zona (Fila)
+	promedioZona <- 0.0
+	
+	// Fila en la matriz, el indice se usa para buscar el nombre de la zona en el arreglo de zonas
+	minZona <- 1
+	
+	// Variable auxiliar
+	auxZona <- 0.0
+	
+	// Mejor zona, índices para ambas coordenadas
+	maxZona <- 1
+	maxRaza <- 1
+
+	// Variable auxiliar
+	auxZonaRaza <- 0.0
+	
+	Para i <- 1 hasta CEZonas hacer
+		Para k <- 1 hasta CERazas hacer
+			promedioZona <- promedioZona + mProduccion[i, k]
+			
+			// Guardo el valor máximo y sus respectivos índices
+			Si(mProduccion[i, k] > auxZonaRaza) entonces
+				auxZonaRaza <- mProduccion[i, k]
+				maxZona <- i
+				maxRaza <- k
+			FinSi
+		FinPara
+		promedioZona <- promedioZona / CEZonas
+		Si(i = 1) entonces
+			auxZona <- promedioZona
+		SiNo
+			Si(auxZona > promedioZona) entonces
+				auxZona <- promedioZona
+				minZona <- i
+			FinSi
+		FinSi
+		Mostrar("Promedio para zona " + zonas[i] + ": " + promedioZona)
+	FinPara
+	Mostrar("Zona de menor producción: " + zonas[minZona])
+	Mostrar("Mejor combinación raza/zona: " + zonas[maxZona] + ", " + zonas[maxRaza])
+
+	promedioRaza <- 0.0
+	Para k <- 1 hasta CERazas hacer
+		Para i <- 1 hasta CEZonas hacer
+			promedioRaza <- promedioRaza + mProduccion[i, k]
+		FinPara
+		Mostrar("Promedio para raza " + razas[k] ": " + promedioRaza / CERazas)
+		promedioRaza <- 0.0
+	FinPara
+FinProcedimiento
+
+Procedimiento InicializarMatrizProduccion(ref mProduccion mProduccion)
+Variables
+	i, k:		entero
+Inicio
+	Para i <-1 hasta maxZonas hacer
+		Para k <- 1 hasta maxRazas hacer
+			mProduccion[i, k] <- 0.0
+		FinPara
+	FinPara
+Fin
+
+//
+// Busca en un arreglo la entidad pasada por parametro y retorna el indice de la misma por referencia (Insertada o encontrada)
+//
+Procedimiento InsertarUnico(val valor cadena de texto, ref A tarregloentero, ref CE entero, val max entero, ref pos entero)
+Variables
+	encontrado:				logico
+Inicio
+	pos <- 1
+	encontrado <- falso
+	Mientras i <= CE y No(encontrado)
+		Si A[pos] = valor entonces
+			encontrado <- verdadero
+		FinSi
+		pos <- pos + 1
+	FinMientras
+	Si No(encontrado) entonces
+		Si(CE <= max) entonces
+			A[pos] <- valor
+			CE <- CE + 1
+		SiNo
+			Mostrar("Error")
+		FinSi
+	FinSi
+FinProcedimiento
