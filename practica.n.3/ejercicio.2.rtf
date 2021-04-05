@@ -1,0 +1,79 @@
+Leer un texto desde una secuencia. Las palabras se encuentran separadas por uno o más blancos. Emitir la cantidad de palabras que cumplen con cada una de las siguientes condiciones:
+
+a. Están formadas por una sola letra.
+b. Empiezan con “m”..
+
+Funcion EsInicio(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant = separador y c != separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFncion
+
+Funcion EsMedio(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant != separador y c != separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFuncion
+
+Funcion EsFin(val ant caracter, val c ant) : booleano
+Variables
+    es: booleano
+Inicio
+    es <- falso
+    Si(ant != separador y c = separador) entonces
+        es <- verdadero
+    FinSi
+    Devolver(es)
+FinFuncion
+
+Algoritmo Ejericio2
+Constantes
+    separador:  caracter <- " "
+Variables
+    SecE:   secuencia de caracteres
+    ant, c: caracter
+    cc: entero
+Inicio
+    ant <- separador
+    cc <- 0
+    unaSolaLetra <- 0
+    empiezanConM <- 0
+    LeerPrim(SecE, c)
+    Mientras No Fin(SecE) hacer
+        Si(EsInicio(ant, c)) entonces
+            cc <- cc + 1
+            Si(c = "M") entonces
+                empiezanConM <- empiezanConM + 1
+            FinSi
+        SiNo
+            Si(EsMedio(ant, c)) entonces
+                cc <- cc + 1
+            SiNo
+                Si(EsFin(ant, c)) entonces
+                    TratarFin(cc, unaSolaLetra)
+                FinSi
+                cc <- 0
+            FinSi
+        FinSi
+    FinMientras
+    TratarFin(cc, unaSolaLetra)
+    Mostrar("Una sola letra: " + unaSolaLetra)
+    Mostrar("Empiezan con M: " + empiezanConM)
+FinAlgoritmo
+
+Procedimiento TratarFin(val cc entero, ref unaSolaLetra entero)
+Inicio
+    Si(cc = 1) entonces
+        unaSolaLetra <- unaSolaLetra + 1
+    FinSi
+Fin
