@@ -1,0 +1,111 @@
+Se cuenta con el Archivo Censo con un registro por persona censada y el Archivo Provincia con la descripción de todas las provincias
+Las provincias son a lo sumo 30 y el sexo tiene 2 posibles valores, 1-Mujer 2-Varon. 
+Desarrollar un algoritmo para imprimir un cuadro estadístico con los datos de ambos archivos.:
+
+ARCHIVO-CENSO       ARCHIVO-PROVINCIA
+- REGISTRO-CENSO    - REGISTRO-PROVINCIA
+ . PROVINCIA            . COD_PROVINCIA
+ . SEXO                 . DESCRIPCION
+
+PROVINCIA       MUJER   VARON   TOTAL
+Buenos Aires    300202  312700  612902
+Córdoba         231011  201402  414413
+.. ... ... ...
+.. ... ... ...
+Tierra del Fuego    5400    6120    11520
+TOTAL           XXXXX   XXXXX       XXXXX
+
+Constantes
+    maxProvincias       entero <- 30
+Tipos
+    tArregloProvincias  Arreglo de REGISTRO-PROVINCIA de maxProvincias longitud
+    provincia:          REGISTRO-PROVINCIA
+    censo:              REGISTRO-CENSO
+    mujer:              Arreglo de entero de maxProvincias + 1 longitud
+    varon:              Arreglo de entero de maxProvincias + 1 longitud
+    total:              Arreglo de entero de maxProvincias + 1 longitud
+    tArregloReporte     Arreglo de tReporte de maxProvincias + 1 longitud
+    
+Variables
+    error               booleano
+    provincias          tArregloProvincias
+    CEProvincias        entero
+    reporte             tArregloReporte
+    posProvincia        entero
+    provincia           provincia
+Inicio
+    CargarProvincias(provincias, CEProvincias)
+    InicializarReporte(CEProvincias, mujer, varon, total)
+    Abrir(ARCHIVO-CENSO)
+    Leer(ARCHIVO-CENSO, censo)
+    Mientras No Fin(ARCHIVO-CENSO) hacer
+        BuscarProvincia(provincias, CEProvincias, censo.PROVINCIA, provincia, posProvincia, error)
+        Si No(error) entonces
+            Si(censo.SEXO = 1) entonces
+                mujer[posProvincia] <- mujer[posProvincia] + 1
+            SiNo
+                varon[posProvincia] <- varon[posProvincia] + 1
+            FinSi 
+            total[posProvincia] <- total[posProvincia] + 1
+        FinSi
+        mujer[CEProvincias + 1] <- mujer[CEProvincias + 1] + 1
+        varon[CEProvincias + 1] <- varon[CEProvincias + 1] + 1
+        total[CEProvincias + 1] <- total[CEProvincias + 1] + 1
+        Leer(ARCHIVO-CENSO, censo)
+    FinMientras
+    Para i <- 1 hasta CEProvincias hacer
+        Mostrar(provincias[i].descripción + "\t" + mujer[i] + "\t" + varon[i] + "\t" + total[i])
+    FinPara
+    Mostrar("Total" + "\t" + mujer[CEProvincias + 1] + "\t" + varon[CEProvincias + 1] + "\t" + total[CEProvincias + 1])
+Fin
+
+Procedimiento CargarProvincias(ref provincias tArregloProvincias, ref CEProvincias entero)
+Variables
+    provincia:          provincia
+Inicio
+    CEProvincias <- 0
+    Abrir(ARCHIVO-PROVINCIA)
+    Leer(ARCHIVO-PROVINCIA, provincia)
+    Mientras No Fin(ARCHIVO-PROVINCIA) hacer
+        CEProvincias <- CEProvincias + 1
+        provincias[CEProvincias] <- provincia
+        Leer(ARCHIVO-PROVINCIA, provincia)
+    FinMientras
+    Cerrar(ARCHIVO-PROVINCIA)
+FinProcedimiento
+
+Procedimiento InicializarReporte(valor CEProvincias entero, ref mujer tarregloentero, ref valor tarregloentero, ref total tarregloentero)
+Variables
+    i:              entero
+Inicio
+    Para i <- 1 hasta CEProvincias + 1 hacer
+        mujer[i] <- 0
+        varon[i] <- 0
+        total[i] <- 0
+    FinPara
+Fin
+
+Funcion BuscarProvincia(
+    ref provincias tArregloProvincias,
+    val CEProvincias entero,
+    var valor cadena,
+    ref provincia provincia,
+    ref posProvincia entero,
+    ref error booleano)
+Variables
+    encontrado:     booleano
+Inicio
+    error <- falso
+    posProvincia <- 0
+    encontrado <- falso
+    Mientras posProvincia < CEProvincias y No(encontrado) hacer
+        // En el registro CENSO, provincia es descripción o código?
+        Si(provincias[posProvincia].descripción = valor) entonces
+            encontrado <- verdadero
+        FinSi
+    FinMientras
+    Si No(encontrado) entonces
+        Mostrar("Error, provincia no encontrada")
+        error <- verdadero
+    FinSi
+FinFuncion

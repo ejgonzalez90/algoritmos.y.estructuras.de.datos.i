@@ -1,0 +1,91 @@
+Una empresa almacena en distintos depósitos la existencia de sus artículos en el Archivo Stock.
+Los depósitos son 30 como máximo y están codificados de 1 a 30:
+
+ARCHIVO_STOCK
+-REGISTRO_STOCK
+    .DEPOSITO 
+    .COD_ARTICULO 
+    .CANT_UNIDADES
+
+A partir del archivo STOCK, generar el siguiente listado:
+
+            INFORME de STOCK
+
+Depósito    Cantidad de Artículos   Stock Total
+xxxxxxx     9999                    9999999
+xxxxxxx     9999                    9999999
+xxxxxxx     9999                    9999999
+
+Constantes
+    max:                entero <- 30
+
+Tipos
+    mArticulos:         tmatriz de cadenas de max filas y max longitud
+
+Variables
+    mArticulos:         mArticulos
+    cantidadArticulos:  tarregloentero de max longitud
+    stockTotal:         tarregloentero de max longitud
+
+Inicio
+    InicializarMatrizArticulos(mArticulos)
+    Abrir(ARCHIVO_STOCK)
+    Leer(ARCHIVO_STOCK, registroStock)
+    Mientras No Fin(ARCHIVO_STOCK) hacer
+        Si No(ArticuloSumado(mArticulos, registroStock.DEPOSITO, registroStock.COD_ARTICULO)) entonces
+            cantidadArticulos[registroStock.DEPOSITO] <- cantidadArticulos[registroStock.DEPOSITO] + 1
+        FinSi
+        stockTotal[registroStock.DEPOSITO] <- stockTotal[registroStock.DEPOSITO] + registroStock.CANT_UNIDADES
+        LeerSig(ARCHIVO_STOCK, registroStock)
+    FinMientras
+    Cerrar(ARCHIVO_STOCK)
+
+    Para i <- 1 hasta max hacer
+        Mostrar("Depósito   Cantidad de Artículos   Stock Total")
+        Mostrar(i + cantidadArticulos[i] + stockTotal[i])
+    FinPara
+Fin
+
+Procedimiento InicializarMatrizProduccion(ref mArticulos mArticulos)
+Variables
+	i, k:		entero
+Inicio
+	Para i <-1 hasta max hacer
+		Para k <- 1 hasta max hacer
+			mArticulos[i, k] <- ""
+		FinPara
+	FinPara
+Fin
+
+///
+/// En una matriz guardo los COD_ARTICULO ya sumados por depósito, se esperan hasta max = 30 COD_ARTICULO
+///     Por ejemplo:
+/// [
+///     'Articulo1', 'Articulo2'        <- Fila 1 = Deposito1
+///     'Articulo2', 'Articulo3'        <- Fila 2 = Deposito2
+/// ]
+Funcion ArticuloSumado(ref M mArticulos, val F entero, val C cadena)
+Variables
+	encontrado:				logico
+    i:                      entero
+Inicio
+	encontrado <- falso
+	Mientras i <= max y No(encontrado)
+		Si M[F, i] = C entonces
+			encontrado <- verdadero
+		SiNo
+            Si M[F, i] = "" entonces
+                encontrado <- falso
+            FinSi
+        FinSi
+		pos <- pos + 1
+	FinMientras
+    Si No(encontrado) entonces
+        Si i <= max entonces
+            M[F, i] <- C
+        SiNo
+            Mostrar("Error")
+        FinSi
+    FinSi
+	Devolver(encontrado)
+FinFuncion

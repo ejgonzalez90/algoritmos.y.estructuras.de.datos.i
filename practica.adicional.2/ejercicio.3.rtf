@@ -1,0 +1,51 @@
+Ejercicio 3
+
+Se cuenta con un archivo secuencial cuyos registros tienen la siguiente estructura:
+
+ARCHIVO-ALUMNOS
+-REGISTRO-ALUMNO
+    .MATRICULA
+    .CANT_APROB 
+
+El archivo tiene un registro por cada alumno en CAECE y en el mismo se informa el número de matrícula del alumno y la cantidad de materias que aprobó.
+Considerando que el número máximo de materias aprobadas es 40, determinar cuántos alumnos aprobaron 1 materia, 2 materias, 40 materias y cuántos alumnos no han aprobado ninguna materia.
+
+Constantes
+    max:        entero <- 41
+Tipos
+    alumno:     REGISTRO-ALUMNO
+Variables
+    alumno:     alumno
+    aprobadas:  tarregloentero de max longitud
+Inicio
+    // Inicialización del arreglo
+    Para i <- 1 hasta max hacer
+        aprobadas[1] <- 0
+    FinPara
+
+    Abrir(ARCHIVO-ALUMNOS)
+    Leer(ARCHIVO-ALUMNOS, alumno)
+    Mientras No Fin(ARCHIVO-ALUMNOS) hacer
+        // Guardo la cantidad en cada indice del arreglo segun la cantidad aprobada, por ejemplo:
+        // [0, 0, 1, 0...]  -> El primer registro aprobó 2 materias (Base 0)
+        aprobadas[alumno.CANT_APROB] <- aprobadas[alumno.CANT_APROB] + 1
+        Leer(ARCHIVO-ALUMNOS, alumno)
+    FinMientras
+    
+    Cerrar(ARCHIVO-ALUMNOS)
+    
+    // No entendi el enunciado, hay que iterar todos o solo 1 2 y 40?
+    Mostrar("Alumnos que aprobaron 1 materia " + aprobadas[2])
+    Mostrar("Alumnos que aprobaron 2 materias " + aprobadas[3])
+    Mostrar("Alumnos que aprobaron 40 materias " + aprobadas[4])
+    Mostrar("Alumnos que no aprobaron materias " + aprobadas[1])
+
+    // Si no fuese el caso usar
+    Para i <- 1 hasta max hacer
+        Si(i > 1) hacer
+            Mostrar("Alumnos que aprobaron " + i " materia/s: " aprobadas[1])
+        SiNo
+            Mostrar("Alumnos que no aprobaron materias " + aprobadas[1])
+        FinSi
+    FinPara
+Fin
