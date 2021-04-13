@@ -8,3 +8,96 @@ ARCHIVO-ARTICULOS
 		.DESCRIPCION
 		.CANTIDAD-UNIDADES
 		.PRECIO-UNITARIO
+
+TIPO		CLASE		N-ARTICULO		DESCRIPCION		CANTIDAD-UNIDADES		PRECIO-UNITARIO
+tipo1		clase1		1				desc1			10						5.0
+tipo1		clase1		2				desc2			15						6.0
+tipo1		clase2		3				desc3			20						7.0
+
+Algoritmo Ejercicio4
+Variables
+	regArticulo:	reg-art
+	tipoAnterior:	cadena
+	tCantUnidades:			entero
+	tStockVal:				real
+	tCantArt:				entero
+Inicio
+	Abrir(ARCHIVO-ARTICULOS)
+	Leer(ARCHIVO-ARTICULOS, regArticulo)
+	Mientras No(Fin(ARCHIVO-ARTICULOS)) hacer
+		InicializarTipo(regArticulo, tipoAnterior, tCantUnidades, tStockVal, tCantArt)
+		TratarTipo(regProduccion, tipoAnterior, tCantUnidades, tStockVal, tCantArt)
+		FinalizarTipo(regProduccion, tCantUnidades, tStockVal, tCantArt)
+	FinMientras
+	Cerrar(ARCHIVO-ARTICULOS)
+FinAlgoritmo
+
+Procedimiento InicializarTipo(ref regArticulo reg-art, ref tipoAnterior, ref tCantUnidades entero, ref tCantUnidades real, ref tCantArt entero)
+Inicio
+	tipoAnterior <- regArticulo.TIPO
+	tCantUnidades <- 0
+	tStockVal <- 0.0
+	tCantArt <- 0
+FinProcedimiento
+
+Procedmiento TratarTipo(ref regArticulo reg-art, ref tipoAnterior, ref tCantUnidades entero, ref tStockVal real, ref tCantArt entero)
+Variables
+	claseAnterior:			cadena
+	cCantUnidades:			entero
+	cStockVal:				real
+	cCantArt:				entero
+Inicio
+	Mientras No(Fin(ARCHIVO-ARTICULOS)) y regArticulo.TIPO = tipoAnterior hacer
+		InicializarClase(regArticulo, claseAnterior, cCantUnidades, cStockVal, cCantArt)
+		TratarClase(regArticulo, claseAnterior, cCantUnidades, cStockVal, cCantArt)
+		FinalizarClase(regArticulo, cCantUnidades, cStockVal, cCantArt)
+		tCantUnidades <- tCantUnidades + cCantUnidades
+		tStockVal <- tStockVal + cStockVal
+		tCantArt <- tCantArt + cCantArt
+	FinMientras
+FinProcedimiento
+
+Procedimiento InicializarClase(ref regArticulo reg-art, ref claseAnterior cadena, ref cCantUnidades entero, ref cStockVal real, ref cCantArt entero)
+Inicio
+	claseAnterior <- regArticulo.CLASE
+	cCantUnidades <- 0
+	cStockVal <- 0.0
+	cCantArt <- 0
+FinProcedimiento
+
+Procedimiento TratarClase(ref regArticulo reg-art, ref claseAnterior cadena, ref cCantUnidades entero, ref cStockVal real, ref cCantArt enteros)
+Variables
+	i:		entero
+	aux:	real
+Inicio
+	i <- 0
+	Mientras No(Fin(ARCHIVO-ARTICULOS)) y claseAnterior = regArticulo.CLASE hacer
+		cCantUnidades <- cCantUnidades + regArticulo.CANTIDAD-UNIDADES
+		cStockVal <- cStockVal + (regArticulo.CANTIDAD-UNIDADES * regArticulo.PRECIO-UNITARIO)
+		
+		Mostrar("Artículo " + regArticulo.N-ARTICULO)
+		Mostrar("Descripción " + regArticulo.DESCRIPCION)
+		Mostrar("Cantidad de unidades " + regArticulo.CANTIDAD-UNIDADES)
+		Mostrar("Precio unitario " + regArticulo.PRECIO-UNITARIO)
+		Mostrar("Stock valorizado " + regArticulo.PRECIO-UNITARIO * regArticulo.CANTIDAD-UNIDADES)
+
+		Leer(ARCHIVO-ARTICULOS, regArticulo)
+
+		i <- i + 1
+	FinMientras
+	cCantArt <- i
+FinProcedimiento
+
+Procedimiento FinalizarClase(regArticulo, cCantUnidades, cStockVal, cCantArt)
+Inicio
+	Mostrar("Clase: Cantidad de unidades " + cCantUnidades)
+	Mostrar("Clase: Stock valorizado " + cStockVal)
+	Mostrar("Clase: Cantidad de artículos " + cCantArt)	
+FinProcedimiento
+
+Procedimiento FinalizarTipo(ref regProduccion reg-art, val tCantUnidades entero, val tCantUnidades entero, tCantArt)
+Inicio
+	Mostrar("Tipo: Cantidad de unidades " + tCantUnidades)
+	Mostrar("Tipo: Stock valorizado " + tStockVal)
+	Mostrar("Tipo: Cantidad de artículos " + tCantArt)	
+FinProcedimiento
