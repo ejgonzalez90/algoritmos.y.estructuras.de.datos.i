@@ -20,6 +20,24 @@ Procedimiento	sPreparar					(ref s tSecuencia)
 Procedimiento	sEscribir					(ref s tSecuencia, ref c caracter)			sPreparar
 Procedimiento	sMarcar						(ref s tSecuencia)							sPreparar
 
+tdaPila
+----------------------------------------------------------------------------------------------------
+Tipo			Operador					Firma							Resultado	Precondciones
+Funcion			pVacía						(ref p: tPila)					booleano
+Funcion			pLlena						(ref p: tPila)					booleano
+Procedimiento 	pCrear						(ref p: tPila)
+Procedimiento 	pPoner						(ref P: tPila; valor x: tdato)				No(pLlena)
+Procedimiento 	pSacar						(ref P: tPila; ref x: tdato)				No(pVacia)
+
+tdaPila
+----------------------------------------------------------------------------------------------------
+Tipo			Operador					Firma							Resultado	Precondciones
+Funcion 		cVacía						(ref q: tCola)					booleano
+Funcion 		cLlena						(ref q: tCola)					booleano
+Procedimiento	cCrear						(ref q: tCola)
+Procedimiento	cPoner						(ref q: tCola; valor x: tdato)
+Procedimiento	cSacar						(ref q: tCola; ref x: tdato)
+
 tdaFecha
 ----------------------------------------------------------------------------------------------------
 

@@ -1,0 +1,32 @@
+Ejercicio 2.
+
+Ingresar una secuencia de caracteres  que finaliza con una marca de fin de secuencia.
+Mostrarlos por pantalla en el orden inverso al que entraron..
+
+Algoritmo Ejercicio2
+Constantes
+	finSecuencia:	caracter <- "S"
+Variables
+	p:				tPila caracter
+	c:				caracter
+Inicio
+	pCrear(tPila)
+	IngresarSecuencia(tPila)
+	Mientras No(pVacia) hacer
+		Mostrar(pSacar(p, caracter))
+	FinMientras
+FinAlgoritmo
+
+Procedimiento IngresarSecuencia(p)
+Inicio
+	Repetir
+		Mostrar("Ingresar dato: (Para fin ingrese 'S')")
+		Ingresar(c)
+		Si(c != finSecuencia) entonces
+			p.pPoner(p, c)
+		FinSi
+	Mientras c != finSecuencia y No(p.pLlena)
+	Si(p.pLlena(p) y c != finSecuencia) entonces
+		Mostrar("Error, demasiados datos, se mostrarán solo los datos que se pudieron procesar")
+	FinSi
+FinProcedimiento
