@@ -1,0 +1,52 @@
+tda
+----------------------------------------------------------------------------------------------------
+Registro RegistroEmpleado:	registro
+	nombre:					cadena[30]
+ 	edad:					entero
+ 	domicilio:				cadena[40]
+ 	salario:				real
+FinRegistro
+
+Variables
+	empleado:				RegistroEmpleado
+
+tSecuencia
+----------------------------------------------------------------------------------------------------
+Tipo			Operador					Firma							Resultado	Precondciones
+Procedimiento	sLeerPrim					(ref s tSecuencia, ref c caracter)
+Procedimiento	sLeerSig					(ref s tSecuencia, ref c caracter)			sLeerPrim
+Funcion			sFin						(ref s tSecuencia)				booleano	sLeerPrim
+Procedimiento	sPreparar					(ref s tSecuencia)
+Procedimiento	sEscribir					(ref s tSecuencia, ref c caracter)			sPreparar
+Procedimiento	sMarcar						(ref s tSecuencia)							sPreparar
+
+tdaFecha
+----------------------------------------------------------------------------------------------------
+
+Tipo			Operador					Firma							Resultado	Precondciones
+Funcion			fValida						(f tFecha)						booleano
+Funcion			fMayor						(f1 tFecha, f2 tFecha)			booleano	fValida y f1 > f2
+Funcion			fDiferenciaDias				(f1 tFecha, f2 tFecha)			booleano	fValida y f1 > f2
+Funcion			fDia						(f tFecha)						entero		fValida
+Funcion			fMes						(f tFecha)						entero		fValida
+Funcion			fAnio						(f tFecha)						entero		fValida
+Procedimiento	SumarDias					(ref f tFecha, valor n entero)				fValida
+Procedimiento	fConvertirTFechaFLegible	(valor f tFecha, ref s fLegible)			fValida
+Procedimiento	fConvertirFLegibleTFecha	(valor s fLegible, ref f tFecha, ref error: booleano)
+
+Notas:
+	fLegible = cadena[10]
+
+Procedimiento IngresarFecha(ref fecha tFecha)
+Variables
+
+Inicio
+		fConvertirFLegibleTFecha(f, fecha, error)
+		Mientras(Error o No(fValida(fecha))) hacer
+
+		FinMientras
+FinProcedimiento
+
+3 4 5
+3 4 5 6 7
+
