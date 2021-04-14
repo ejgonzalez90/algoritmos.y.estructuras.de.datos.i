@@ -1,0 +1,65 @@
+Ejercicio 3.
+
+Leer un número entero e informar el reverso. Ej. Si el número es 123456, el reverso es 654321.
+
+Algoritmo Ejercicio3
+Constantes
+
+Variables
+	p:				tPila entero
+	i:				entero
+Inicio
+	pCrear(p)
+	i <- IngresarEntero(p)
+	TratarEntero(p, i)
+	InvertirPila(p)
+	MostrarPila(p)
+FinAlgoritmo
+
+Función IngresarEntero(ref p tPila) : entero
+Variables
+	i:				entero
+Inicio
+	Repetir
+		Mostrar("Ingresar entero: ")
+		Ingresar(i)
+	Mientras No(i > 0)
+	Devolver(i)
+FinProcedimiento
+
+Procedimiento TratarEntero(ref p tPila, valor q entero)
+Variables
+	r:				entero
+Inicio
+	Mientras q > 0 y No(pLlena(p)) hacer
+		r <- valor resto 10
+		q <- valor DIV 10
+		pPoner(p, r)
+	FinMientras
+	Si(p.pLlena(p) y q > 0) entonces
+		Mostrar("Error, demasiados datos, se mostrarán solo los datos que se pudieron procesar")
+	FinSi
+FinProcedimiento
+
+Procedimiento InvertirPila(ref pEnt tPila)
+Variables
+	pSal:		tPila
+	i:			entero
+Inicio
+	pCrear(pSal)
+	Mientras No(pVacia(pEnt)) hacer
+		pSacar(pEnt, i)
+		pPoner(pSal, i)
+	FinMientras
+	pEnt <- pSal
+FinProcedimiento
+
+Procedimiento MostrarPila(ref p tPila)
+Variables
+	i:			entero
+Inicio
+	Mientras No(pVacia(p)) hacer
+		pSacar(p, i)
+		Mostrar(i)
+	FinMientras
+FinProcedimiento

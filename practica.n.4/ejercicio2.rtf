@@ -10,14 +10,17 @@ Variables
 	p:				tPila caracter
 	c:				caracter
 Inicio
-	pCrear(tPila)
-	IngresarSecuencia(tPila)
-	Mientras No(pVacia) hacer
-		Mostrar(pSacar(p, caracter))
+	pCrear(p)
+	IngresarSecuencia(p)
+	Mientras No(pVacia(p)) hacer
+		pSacar(p, c)
+		Mostrar(c)
 	FinMientras
 FinAlgoritmo
 
 Procedimiento IngresarSecuencia(p)
+Variables
+	c:				caracter
 Inicio
 	Repetir
 		Mostrar("Ingresar dato: (Para fin ingrese 'S')")
