@@ -7,79 +7,27 @@ b) Grabar en la secuencia  sólo aquellas palabras con más de una determinada c
 
 Algoritmo Ejericio1
 Constantes
-    separador:          caracter <- " "
-    max:                entero <- 40
+    SEPARADOR:          caracter <- " "
+    MAX:                entero <- 40
 Variables
-    SecE:               secuencia de caracteres
-    cantidadLetras, cp, total:
-                        entero
-    ant, c:             caracter
-    aux:                arreglo de caracteres de max longitud
-    error:              booleano
+    c:                  caracter
+    palabras:           entero
+    sEnt, sSal:         tSecuencia
+    cantidad:           entero
 Inicio
-    IngresarEntero(cantidadLetras)
-    ant <- separador
-    cp <- 0
-    total <- 0
-    error <- falso
-    Preparar(SecS)
-    LeerPrim(SecE, c)
-    Mientras No Fin(SecE) y No(error) hacer
-        Si(EsInicio(ant, c)) entonces
-            TratarPalabra(aux, cp, error)    
-        SiNo
-            Si(EsMedio(ant, c)) entonces
-                TratarPalabra(aux, cp, error)
-            SiNo
-                Si(EsFin(ant, c)) entonces
-                    TratarFin(SecS, aux, cp, cantidadLetras, total)
-                FinSi
-            FinSi
-        FinSi
-        ant <- c
-        Leersig(SecE, c)
+    palabras <- 0
+    IngresarEntero(cantidad)
+    sPreparar(sSal)
+    sLeerPrim(sEnt)
+    SaltearBlancos(sEnt, c)
+    Mientras No(sFin(sEnt)) hacer
+        palabras <- palabras + 1
+        TratarPalabra(sEnt, c, sSal, cantidad)
+        SaltearBlancos(sEnt, c)
     FinMientras
-    Si No(Error) entonces
-        TratarFin(SecS, aux, cp, cantidadLetras, total)
-        Marcar(SecS)
-        Mostrar("Se grabaron " + total + " palabras.")
-    SiNo
-        Mostrar("Error")
-    FinSi
+    sMarcar(sSal)
+    Mostrar("Se trataron " + palabras + " palabras.")
 FinAlgoritmo
-
-Funcion EsInicio(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant = separador y c != separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFncion
-
-Funcion EsMedio(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant != separador y c != separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFuncion
-
-Funcion EsFin(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant != separador y c = separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFuncion
 
 Proceimiento IngresarEntero(ref valor entero)
 Inicio
@@ -89,23 +37,53 @@ Inicio
     hasta que entero > 0
 FinProcedimiento
 
-Procedimiento TratarPalabra(ref A tarreglocaracter, ref CE entero, ref error booleano)
+Procedimiento SaltearBlancos(ref s tSecuencia, ref c caracter)
 Inicio
-    CE <- CE + 1
-    Si CE <= max entonces
-        A[CE] <- c
-    SiNo
-        error <- verdadero
-    FinSi
-Fin
+    Mientras No(sFin(s)) y c = SEPARADOR hacer
+        sLeerSig(s, c)
+    FinMientras
+FinProcedimiento
 
-Procedimiento TratarFin(ref SecS tSecuencia, ref A tarreglocaracter, val CE entero, val cantidadLetras entero, ref total entero)
+Procedimiento TratarPalabra(ref sEnt tSecuencia, ref c caracter, ref sSal tSecuencia, valor cantidad entero)
+Variables
+    i:          entero
+    palabra:    tArregloCaracter[MAX]
 Inicio
-    Si(cp > cantidadLetras) entonces
-        total <- total + 1
-        Para i <- 1 hasta CE hacer
-            Escribir(SecS, A[i])
-        FinPara
+    i <- 0
+    Mientras No(sFin(sEnt)) y c != SEPARADOR hacer
+        i <- i + 1
+        palabra[i] <- c
+        sLeerSig(sEnt, c)
+    FinMientras
+    Si No(sFin(sEnt)) y c != SEPARADOR hacer
+        TratarError(palabra, i)
+    SiNo
+        Si(i > cantidad) entonces
+            EscribirPalabra(palabra, i, sSal)
+        FinSi
     FinSi
-    CE <- 0
+FinProcedimiento
+
+Procedimiento TratarError(ref palabra tArregloCaracter, valor ce entero)
+Inicio
+	Mostrar("Palabra demasiado larga para ser tratada: ")
+	Mostrar(MostrarPalabra(palabra, ce) + "...")
+FinProcedimiento
+
+Procedimiento MostrarPalabra(ref palabra tArregloCaracter, valor ce entero)
+Variables
+	i:			entero
+Inicio
+	Para i <- 1 hasta ce hacer
+		Mostrar(palabra[i])
+	FinPara
+FinProcedimiento
+
+Procedimiento EscribirPalabra(ref palabra tArregloCaracter, valor ce entero, ref sSal tSecuencia)
+Variables
+    i:          entero
+Inicio
+    Para i <- 1 hasta ce hacer
+        sEscribir(sSal, c)
+    FinPara
 FinProcedimiento

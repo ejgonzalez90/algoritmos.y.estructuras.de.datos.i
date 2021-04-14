@@ -3,77 +3,60 @@ Leer un texto desde una secuencia. Las palabras se encuentran separadas por uno 
 a. Están formadas por una sola letra.
 b. Empiezan con “m”..
 
-Funcion EsInicio(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant = separador y c != separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFncion
-
-Funcion EsMedio(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant != separador y c != separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFuncion
-
-Funcion EsFin(val ant caracter, val c ant) : booleano
-Variables
-    es: booleano
-Inicio
-    es <- falso
-    Si(ant != separador y c = separador) entonces
-        es <- verdadero
-    FinSi
-    Devolver(es)
-FinFuncion
-
 Algoritmo Ejericio2
 Constantes
-    separador:  caracter <- " "
+	SEPARADOR:  caracter <- " "
+	MAX:		entero <- 40
 Variables
-    SecE:   secuencia de caracteres
-    ant, c: caracter
-    cc: entero
+	s:   		tSecuencia
+	c:			caracter
 Inicio
-    ant <- separador
-    cc <- 0
-    unaSolaLetra <- 0
-    empiezanConM <- 0
-    LeerPrim(SecE, c)
-    Mientras No Fin(SecE) hacer
-        Si(EsInicio(ant, c)) entonces
-            cc <- cc + 1
-            Si(c = "M") entonces
-                empiezanConM <- empiezanConM + 1
-            FinSi
-        SiNo
-            Si(EsMedio(ant, c)) entonces
-                cc <- cc + 1
-            SiNo
-                Si(EsFin(ant, c)) entonces
-                    TratarFin(cc, unaSolaLetra)
-                FinSi
-                cc <- 0
-            FinSi
-        FinSi
-    FinMientras
-    TratarFin(cc, unaSolaLetra)
-    Mostrar("Una sola letra: " + unaSolaLetra)
-    Mostrar("Empiezan con M: " + empiezanConM)
+	sLeerPrim(s, c)
+	SaltearBlancos(ref s tSecuencia, ref c caracter)
+	Mientras No(sFin(s)) hacer
+		TratarPalabra(ref s tSecuencia, ref c caracter)
+		SaltearBlancos(ref s tSecuencia, ref c caracter)
+	FinMientras
 FinAlgoritmo
 
-Procedimiento TratarFin(val cc entero, ref unaSolaLetra entero)
+Procedimiento SaltearBlancos(ref s tSecuencia, ref c caracter)
 Inicio
-    Si(cc = 1) entonces
-        unaSolaLetra <- unaSolaLetra + 1
-    FinSi
-Fin
+	Mientras No(sFin(s)) y c = SEPARADOR hacer
+		sLeerSig(s, c)
+	FinMientras
+FinProcedimiento
+
+Procedimiento TratarPalabra(ref s tSecuencia, ref c caracter)
+Variables
+	i:			entero
+	palabra:	tArregloCaracter[MAX]	
+Inicio	
+	i <- 0
+	Mientras No(sFin(s)) y No(c = SEPARADOR) hacer
+		i <- i + 1
+		palabra[i] <- c
+		sLeerSig(s, c)
+	FinMientras
+	Si No(sFin(s)) y c <> SEPARADOR entonces
+		TratarError(palabra, i)
+	SiNo
+		Si(i = 1 o palabra[1] = "m") entonces
+			MostrarPalabra(palabra, i)
+		FinSi
+	FinSi
+FinProcedimiento
+
+Procedimiento TratarError(ref palabra tArregloCaracter, valor ce entero)
+Inicio
+	Mostrar("Palabra demasiado larga para ser tratada: ")
+	Mostrar(MostrarPalabra(palabra, ce) + "...")
+FinProcedimiento
+
+Procedimiento MostrarPalabra(ref palabra tArregloCaracter, valor ce entero)
+Variables
+	i:			entero
+Inicio
+	Para i <- 1 hasta ce hacer
+		Mostrar(palabra[i])
+	FinPara
+FinProcedimiento
