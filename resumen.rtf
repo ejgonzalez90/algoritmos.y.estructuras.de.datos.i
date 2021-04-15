@@ -10,6 +10,16 @@ FinRegistro
 Variables
 	empleado:				RegistroEmpleado
 
+tTabla
+----------------------------------------------------------------------------------------------------
+* Primer Caso de Tablas: se conoce la dimensión máxima de la tabla y su codificación.
+
+* Segundo Caso de Tablas: se sabe que hay 40 sucursales pero ahora no conocemos su codificación. Se crea una tabla sucursales donde se guardarán sólo los códigos.
+
+* Tercer Caso de Tablas: Se sabe que hay 40 sucursales pero ahora poseemos un archivo que contiene todos los códigos válidos de las sucursales. Se crea una tabla sucursales donde se guardarán sólo los códigos.
+
+tablaSucursales= arreglo [cmax] de cadena
+
 tSecuencia
 ----------------------------------------------------------------------------------------------------
 Tipo			Operador					Firma							Resultado	Precondciones
@@ -29,14 +39,14 @@ Procedimiento 	pCrear						(ref p: tPila)
 Procedimiento 	pPoner						(ref P: tPila; valor x: tdato)				No(pLlena)
 Procedimiento 	pSacar						(ref P: tPila; ref x: tdato)				No(pVacia)
 
-tdaPila
+tdaCola
 ----------------------------------------------------------------------------------------------------
 Tipo			Operador					Firma							Resultado	Precondciones
 Funcion 		cVacía						(ref q: tCola)					booleano
 Funcion 		cLlena						(ref q: tCola)					booleano
 Procedimiento	cCrear						(ref q: tCola)
-Procedimiento	cPoner						(ref q: tCola; valor x: tdato)
-Procedimiento	cSacar						(ref q: tCola; ref x: tdato)
+Procedimiento	cPoner						(ref q: tCola; valor x: tdato)				No(pLlena)
+Procedimiento	cSacar						(ref q: tCola; ref x: tdato)				No(pVacia)
 
 tdaFecha
 ----------------------------------------------------------------------------------------------------
