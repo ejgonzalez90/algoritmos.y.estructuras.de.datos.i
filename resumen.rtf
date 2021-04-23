@@ -54,7 +54,7 @@ tdaFecha
 Tipo			Operador					Firma							Resultado	Precondciones
 Funcion			fValida						(f tFecha)						booleano
 Funcion			fMayor						(f1 tFecha, f2 tFecha)			booleano	fValida y f1 > f2
-Funcion			fDiferenciaDias				(f1 tFecha, f2 tFecha)			booleano	fValida y f1 > f2
+Funcion			fDiferenciaDias				(f1 tFecha, f2 tFecha)			entero	fValida y f1 > f2
 Funcion			fDia						(f tFecha)						entero		fValida
 Funcion			fMes						(f tFecha)						entero		fValida
 Funcion			fAnio						(f tFecha)						entero		fValida
@@ -64,6 +64,31 @@ Procedimiento	fConvertirFLegibleTFecha	(valor s fLegible, ref f tFecha, ref erro
 
 Notas:
 	fLegible = cadena[10]
+
+tdaLista
+----------------------------------------------------------------------------------------------------
+Tipo			Operador					Firma							Resultado	Precondciones
+Funcion			lVacia						(ref l tLista)					booleano
+Procedimiento	lPpio						(ref l tLista)								No(lVacia)
+Procedimiento	lInfo						(ref l tLista, ref x tDato)					No(lVacia) y No(lFin)
+Procedimiento	lSig						(ref l tLista)								No(lVacia) y No(lFin)
+Funcion			lFin						(ref l tLista)					booleano
+Funcion			lLlena						(ref l tLista)					booleano
+Procedimiento	lCrear						(ref l tLista)
+Procedimiento	lInsertarPpio				(ref l tLista, ref x tDato)					No(lLlena)
+Procedimiento	lInsertarFin				(ref l tLista, ref x tDato)					No(lLlena)
+Procedimiento	lBorrarPpio					(ref l tLista)								No(lVacia)
+Procedimiento	lBorrarFin					(ref l tLista)								No(lVacia)
+Procedimiento	lModificar					(ref l tLista, ref x tDato)
+Procedimiento	lInsertarOrden				(ref l tLista, ref x tDato, valor tOrden caracter)
+Procedimiento	lBorrarActual				(ref l tLista)								No(lLlena) y No(lFin)
+Procedimiento	lBuscar						(ref l tLista, valor k tClave, ref existe booleano)
+																						tLista Ordenada
+
+Notas:
+	El primer elemento se trata APARTE, para evitar el No(lFin) en listas circulares!
+	lBorrarActual: Al borrar queda en el siguiente elemento. Puede quedar tambien con lFin = verdadero
+	lBuscar: El actual queda posicionado en el encontrado. Si no encuentra, puede quedar en cualquier lado.
 
 Procedimiento IngresarFecha(ref fecha tFecha)
 Variables
@@ -78,3 +103,22 @@ FinProcedimiento
 3 4 5
 3 4 5 6 7
 
+TODO:
+Archivos
+
+Mayor, Patricia Cristina
+Práctica N° 6
+	Ejercicio 1
+	Ejercicio 2
+	Ejercicio 3
+	Ejercicio 4
+	Ejercicio 5
+	Ejercicio 6
+	Ejercicio 7
+		Proced Ej7pract6.docx
+		Notas:
+			Falta controlar un error! En algún lado jaja no se.
+			Funcion Max hay que optimizarla/corregirla.
+
+Resolver punto C
+	Procemiento 3

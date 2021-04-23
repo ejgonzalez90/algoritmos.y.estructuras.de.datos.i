@@ -1,0 +1,128 @@
+1- Ingresar una fecha, validarla e informar a qué quincena (1ra o 2da) y trimestre pertenecen.
+2- Ingresar una fecha, validarla e informar a qué estación pertenece. 
+3- Ingresar dos fechas, validarlas, informar cual es la mayor, aclarar si son iguales
+
+Algoritmo Ejercicio1
+Variables
+	f:		tFecha
+Inicio
+	IngresarFecha(f)
+	MostrarQuincena(f)
+	MostrarTrimestre(f)
+FinAlgoritmo
+
+Procedimiento IngresarFecha(ref f tFecha)
+Variables
+	s:					fLegible
+	t:					tFecha
+	error, valida:		booleano
+Inicio
+	error <- falso
+	valida <- falso
+	Repetir
+		Mostrar("Ingresar fecha (dd/mm/aaaa)")
+		Ingresar(f)
+		fConvertirFLegibleTFecha(f, t, error)
+		Si No(error) entonces
+			valida <- fValida(t)
+		SiNo
+			Mostrar("Fecha inválida")
+		FinSi
+	Mientras No(valida)
+FinProcedimiento
+
+Procedimiento MostrarQuincena(ref t tFecha)
+Inicio
+	Si(fDia(f) > 15) entonces
+		Mostrar("1ra quincena")
+	SiNo
+		Mostrar("2da quincena")
+	FinSi
+FinProcedimiento
+
+Procedimiento MostrarTrimestre(ref t tFecha)
+Inicio
+	Mostrar("Trimestre: ", fMes(f) DIV 3)
+FinProcedimiento
+
+Algoritmo Ejercicio2
+Constantes
+	estaciones:		tArreglo[4] de cadena <- [ "Verano", "Otoño", "Invierno", "Primavera" ]
+Varaibles
+	f:			tFecha
+	estacion:	entero
+Inicio
+	IngresarFecha(f)
+	estacion <- Estacion(f)
+	Mostrar(estaciones[estacion])
+FinAlgoritmo
+
+Funcion Estacion(ref f tFecha)
+Precondciones
+	f:		tFecha / fValida(f)
+Variables
+	estacion:	entero
+	anio:		entero
+Inicio
+	estacion <- 1
+	anio <- fAnio(f)
+	Si(fMayor(f, ConstruirFecha(20, 3, anio))) entonces
+		Si(fMayor(f, ConstruirFecha(20, 6, anio))) entonces
+			Si(fMayor(f, ConstruirFecha(20, 9, anio))) entonces
+				Si No((fMayor(f, ConstruirFecha(20, 12, anio)))) entonces
+					estacion <- 4
+				FinSi
+			SiNo
+				estacion <- 3
+			FinSi
+		SiNo
+			estacion <- 2
+		FinSi
+	FinSi
+	Devolver(estacion)
+FinProcedimiento
+
+Funcion ConstruirFecha(val dia entero, val mes entero, val anio entero) : tFecha
+Precondciones
+	dia:	entero / 1 <= dia <= 31
+	mes:	entero / 1 <= dia <= 12
+	anio:	entero / 1000 <= dia <= 9999
+Variables
+	error:	booleano
+	c:		cadena[10]
+	f:		tFecha
+Inicio
+	error <- falso
+
+	// ¿Podemos concatenar cadenas de esta forma?
+	c <- ""
+	Si(dia < 10) entonces
+		c <- c + "0"
+	FinSi
+	c <- c + dia + "/"
+	Si(mes < 10) entonces
+		c <- c + "0"
+	FinSi
+	c <- c + mes + "/" + anio
+
+	// Si como precondición se que la fecha es válida, ¿deberíamos obviar el control de error?
+	fConvertirFLegibleTFecha(c, f, error)
+	Devolver(f)
+Fin
+
+Algoritmo Ejercicio3
+Varaibles
+	f1, f2:		tFecha
+Inicio
+	IngresarFecha(f1)
+	IngresarFecha(f2)
+	Si(fMayor(f1, f2)) entonces
+		Mostrar("Primera mayor")
+	SiNo
+		Si(fMayor(f2, f1)) entonces
+			Mostrar("Segunda mayor")
+		SiNo
+			Mostrar("Iguales")
+		FinSi
+	FinSi
+FinAlgoritmo
