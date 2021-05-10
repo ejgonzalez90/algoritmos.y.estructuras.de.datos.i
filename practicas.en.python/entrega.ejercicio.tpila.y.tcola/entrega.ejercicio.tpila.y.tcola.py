@@ -11,6 +11,18 @@
 
 # Fecha limite de entrega 09/05/2021. Se debe entregar la resolución del problema en Python. Adjuntar solo el archivo .py con la resolución.
 
+# PcrearC
+# PllenaC
+# PponerC
+# PvaciaC
+# PsacarC
+
+# CcrearC
+# CllenaC
+# CponerC
+# CvaciaC
+# CsacarC
+
 import imp
 TPila = imp.load_compiled("TPila", "../lib/TPila.cpython-37.pyc")
 TCola = imp.load_compiled("TCola", "../lib/TCola.cpython-37.pyc")
@@ -27,13 +39,48 @@ def MostrarMensaje(mensaje, tipo = "Error"):
 
 def IngresarPalabras(c):
     datoC.valor = input()
-    # TODO: En realidad creo que se entra toda la cadena entera, y luego se busca FIN? Y si el usuario no pone FIN?
     while datoC.valor != "FIN" and not TCola.CllenaC(c):
         TCola.CponerC(c, datoC)
         datoC.valor = input()
     if datoC.valor != "FIN" and TCola.CllenaC(c):
         MostrarMensaje("La cola está llena y no soporta mas elementos.")
         MostrarMensaje("Se tratarán los elementos que pudieron ingresarse.", "Advertencia")
+
+
+def OrdenarCola(entrada):
+    c = TCola.TColaC()
+    TCola.CcrearC(c)
+
+    p1 = TPila.TPilaC()
+    TPila.PcrearC(p1)
+    p2 = TPila.TPilaC()
+    TPila.PcrearC(p2)
+
+    if not TCola.CvaciaC(entrada):
+        TCola.CsacarC(entrada, datoC)
+        tope = TDato.TdatoC()
+        tope.valor = datoC.valor
+
+        while (not TCola.CvaciaC(entrada)):
+            TCola.CsacarC(entrada, datoC)
+            
+            if(len(datoC.valor) >= len(tope.valor)):
+                TPila.PponerC(p1, tope)
+                tope.valor = datoC.valor
+            else:
+                while(not TPila.PvaciaC(p1) and len(datoC.valor) < len(tope.valor)):
+                    TPila.PponerC(p2, tope)
+                    TPila.PsacarC(p1, tope)
+                TPila.PponerC(p1, datoC)
+                while(not TPila.PvaciaC(p2)):
+                    TPila.PsacarC(p2, datoC)
+                    TPila.PponerC(p1, datoC)
+                TPila.PsacarC(p1, tope)
+        while(not TPila.PvaciaC(p1)):
+            TPila.PsacarC(p1, datoC)
+            TCola.CponerC(c, datoC)
+        TCola.CponerC(c, tope)
+    return c
 
 def InvertirPalabra(palabra):
     p = TPila.TPilaC()
@@ -50,23 +97,13 @@ def MostrarPalabraInvertida(palabra):
     while not TPila.PvaciaC(p):
         TPila.PsacarC(p, datoC)
         print(datoC.valor, end="")
+    print(" ", end="")
 
 def MostrarCola(c):
     while not TCola.CvaciaC(c):
         TCola.CsacarC(c, datoC)
         MostrarPalabraInvertida(datoC.valor)
 
-# PcrearC
-# PllenaC
-# PponerC
-# PvaciaC
-# PsacarC
-
-# CcrearC
-# CllenaC
-# CponerC
-# CvaciaC
-# CsacarC
-
 IngresarPalabras(c)
+c = OrdenarCola(c)
 MostrarCola(c)
