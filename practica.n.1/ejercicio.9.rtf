@@ -6,8 +6,115 @@ Una empresa paga a fin de mes a sus empleados una comisión del 0.5% sobre las v
 .TOTAL de VENTAS
 . NRO de FACTURA  de MAYOR VENTA del MES
 . IMPORTE de MAYOR VENTA del MES
+
 Al final del día actualiza los registros de ese archivo con las ventas efectuadas almacenadas en otro archivo cuyo diseño de registro es:
+
 .NRO de EMPLEADO  
 .NRO de FACTURA
 .IMPORTE
+
 Se pide actualizar el primer archivo (teniendo en cuenta que un vendedor efectúa más de una venta por día) y listar las comisiones que le corresponden hasta el momento a cada empleado.
+
+-- Corte 1
+NRO de EMPLEADO	TOTAL de VENTAS	NRO de FACTURA  de MAYOR VENTA del MES	IMPORTE de MAYOR VENTA del MES
+1				150				1										150
+
+-- Corte 2
+NRO de EMPLEADO	TOTAL de VENTAS	NRO de FACTURA  de MAYOR VENTA del MES	IMPORTE de MAYOR VENTA del MES
+1				650				3										350
+2				900				6										300
+
+NRO de EMPLEADO	NRO de FACTURA	IMPORTE
+-- Corte 1
+1				1				150
+-- Corte 2
+1				2				300
+1				3				350
+2				4				300
+2				5				300
+2				6				300
+
+Algoritmo Ejercicio9
+Tipos
+	Registro	Mensual
+		nroEmpleado:		entero
+		totalVentas:		real
+		nroFactura:			entero
+		importe:			real
+	FinRegistro
+
+	Registro 	Diario
+		nroEmpleado:		entero
+		nroFactura:			entero
+		importe:			real
+	FinRegistro
+
+Variables
+	regMensual:				Mensual
+	regDiario				Diario
+
+Inicio
+	Abrir(Archivo-Mensual, Archivo-Diario)
+	Crear(Archivo-Mensual-Actualizado)
+	LecturaArchivo(regMensual)
+	LecturaArchivo(regDiario)
+	Mientras No(Fin(Archivo-Mensual)) hacer
+		Si(regMensual.nroEmpleado = regDiario.nroEmpleado) entonces
+			TratarEmpleado(regMensual, regDiario)
+		SiNo
+			Si(regMensual.nroEmpleado < regDiario.nroEmpleado) entonces
+				TratarMayor(regMensual, regDiario)	
+			SiNo
+				Mostrar("El empleado " + regMensual.nroEmpleado + " no se encuentra en el archivo mensual")
+			FinSi
+		FinSi
+	FinMientras
+	Cerrar(Archivo-Mensual, Archivo-Diario, Archivo-Mensual-Actualizado)
+Fin
+
+Procedimiento LecturaArchivoMensual(ref regMensual Mensual)
+Inicio
+	Leer(Archivo-Mensual, regMensual)
+	Si Fin(Archivo-Mensual) entonces
+		regMensual <- Mayor-Valor
+	FinSi
+FinProcedimiento
+
+Procedimiento LecturaArchivoDiario(ref regDiario Diario)
+Inicio
+	Leer(Archivo-Diario, regDiario)
+	Si Fin(Archivo-Diario) entonces
+		regDiario <- Mayor-Valor
+	FinSi
+FinProcedimiento
+
+Procedimiento TratarEmpleado(ref regMensual Mensual, ref regDiario Diario)
+Variables
+	regMensualActualizado:	Mensual
+	nroFactura:				entero
+	importe:				real
+Inicio
+	regMensualActualizado <- regMensual
+	nroFactura <- regMensualActualizado.nroFactura
+	importe <- regMensualActualizado.importe
+	Mientras (No(Fin(Archivo-Diario)) y regDiario.nroEmpleado = regMensual.nroEmpleado) hacer
+		regMensualActualizado.totalVentas <- regMensualActualizado.totalVentas + regMensual.importe
+		Si(regMensual.importe >= regMensualActualizado.importe) entonces
+			regMensualActualizado.nroFactura <- regMensual.nroFactura
+			regMensualActualizado.importe <- regMensual.importe
+		FinSi
+		LecturaArchivoDiario(regDiario)
+	FinMientras
+	Mostrar("Comisiones: " + regMensualActualizado.importe * 0.005)
+	Grabar(Archivo-Mensual-Actualizado, regDiario)
+	LecturaArchivoMensual(regMensual)
+Fin
+
+Procedimiento TratarMayor(ref regMensual Mensual, ref regDiario Diario)
+Variables
+Inicio
+	Mientras (No(Fin(Archivo-Mensual)) y regMensual.nroEmpleado < regDiario.nroEmpleado) hacer
+		Grabar(Archivo-Mensual-Actualizado, regMensual)
+		LecturaArchivoMensual(regMensual)
+	FinMientras
+FinProcedimiento
