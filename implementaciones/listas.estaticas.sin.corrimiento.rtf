@@ -1,0 +1,192 @@
+Constantes
+	mNodo:		entero <- 10
+
+Tipos
+	tArregloLista	tDato[mNodo]
+
+	Registro Nodo
+		valor:				tDato
+		siguiente:			entero
+	FinRegistro
+
+	Registro tLista
+		actual:				entero
+		primerOcupado:		entero
+		primerLibre:		entero
+		arregloLista:		tArregloLista
+		ordenAscendente:	booleano
+	FinRegistro
+
+Funcion lVacia(ref l tLista) : booleano
+Inicio
+	lVacia <- l.primerOcupado = 0
+FinFuncion
+
+Procedimiento lPpio(ref l tLista)
+Inicio
+	l.actual <- l.primerOcupado
+FinProcedimiento
+
+Procedimiento lInfo(ref l tLista, ref x tDato)
+Inicio
+	x <- l.arregloLista[l.actual].valor
+FinProcedimiento
+
+Procedimiento lSig(ref l tLista)
+Inicio
+	l.actual <- l.arregloLista[l.actual].siguiente
+FinProcedimiento
+
+Funcion lFin(ref l tLista)
+Inicio
+	lFin <- l.arregloLista[l.actual].siguiente = 0
+FinFuncion
+
+Funcion lLlena(ref l tLista)
+Inicio
+	lLlena <- l.primerLibre = 0
+FinFuncion
+
+Procedimiento lCrear(ref l tLista)
+Inicio
+	Para i <- 1 hasta mNodo hacer
+		l.arregloLista[i].siguiente <- i + 1
+	FinPara
+	l-arregloLista[mNodo].siguiente <- 0
+	l.primerLibre = 1
+	l.primerOcupado = 0
+FinProcedimiento
+
+Procedimiento lInsertarPpio(ref l tLista, ref x tDato)
+Variables
+	primerLibre:	entero
+Inicio
+	primerLibre <- l.primerLibre
+	l.primerLibre <- l.arregloLista[l.primerLibre].siguiente
+	l.arregloLista[primerLibre].valor <- x
+	l.arregloLista[primerLibre].siguiente <- l.primerOcupado
+	l.primerOcupado <- primerLibre
+FinProcedimiento
+
+Procedimiento lInsertarFin(ref l tLista, ref x tDato)
+Variables
+	primerLibre, i:		entero
+Inicio
+	Si(No(lVacia(l))) entonces
+		primerLibre <- l.primerLibre
+		l.primerLibre <- l.arregloLista[l.primerLibre].siguiente
+		l.arregloLista[l.primerLibre].valor <- x
+		l.arregloLista[l.primerLibre].siguiente <- 0
+		i <- l.primerOcupado
+		Mientras l.arregloLista[i].siguiente != 0 hacer
+			i <- l.arregloLista[i].siguiente
+		FinMientras
+		l.arregloLista[i].siguiente <- primerLibre
+	SiNo
+		lInsertarPpio(l, x)
+	FinSi
+FinProcedimiento
+
+Procedimiento lBorrarPpio(ref l tLista)
+	primerOcupado:		entero
+Inicio
+	primerOcupado <- l.arregloLista[l.primerOcupado].siguiente
+	l.arregloLista[l.primerOcupado].siguiente <- l.primerLibre
+	l.primerLibre <- l.primerOcupado
+	l.primerOcupado <- primerOcupado
+FinProcedimiento
+
+Procedimiento lBorrarFin(ref l tLista)
+Inicio
+	Si(l.arregloLista[l.primerOcupado].siguiente != 0) entonces
+		i <- l.primerOcupado
+		Mientras l.arregloLista[l.arregloLista[i].siguiente].siguiente != 0 hacer
+			i <- l.arregloLista[i].siguiente
+		FinMientras
+		l.primerLibre <- l.arregloLista[i].siguiente
+		l.arregloLista[l.arregloLista[i].siguiente].siguiente <- 0
+		l.arregloLista[i].siguiente <- 0
+	SiNo
+		lBorrarPpio(l)
+	FinSi
+FinProcedimiento
+
+Procedimiento lModificar(ref l tLista, ref x tDato)
+Inicio
+	l.arregloLista[l.actual].valor <- x
+FinProcedimiento
+
+Procedimiento lInsertarOrden(ref l tLista, ref x tDato, valor tOrden caracter)
+Variables
+	i, primerLibre:				entero
+Inicio
+	l.ordenAscendente <- tOrden = "A"
+	Si(l.primerOcupado = 0) entonces
+		lInsertarPpio(l, x)
+	SiNo
+		Si(
+			(l.ordenAscendente y l.arregloLista[l.primerOcupado].valor.clave > x.clave) o
+			(No(l.ordenAscendente) y l.arregloLista[l.primerOcupado].valor.clave < x.clave)
+		) entonces
+			lInsertarPpio(l, x)
+		SiNo
+			i <- l.primerOcupado
+			Mientras No(l.arregloLista[i].siguiente = 0) y
+			(
+				(l.ordenAscendente y l.arregloLista[l.arregloLista[i].siguiente].valor.clave < x.clave) o
+				(No(l.ordenAscendente) y l.arregloLista[l.arregloLista[i].siguiente].valor.clave > x.clave)
+			 ) hacer
+				i <- l.arregloLista[i].siguiente
+			FinMientras
+			primerLibre <- l.primerLibre
+			l.primerLibre <- l.arregloLista[l.primerLibre].siguiente
+			l.arregloLista[primerLibre].valor <- x
+			l.arregloLista[primerLibre].siguiente <- l.arregloLista[i].siguiente
+			l.arregloLista[i].siguiente <- primerLibre
+		FinSi
+	FinSi
+FinProcedimiento
+
+Procedimiento lBorrarActual(ref l tLista)
+Variables
+	i:			entero
+	siguiente:	entero
+Inicio
+	Si(l.actual = l.primerOcupado) entonces
+		lBorrarPpio(l)
+	SiNo
+		Si(l.arregloLista[l.actual].siguiente = 0) entonces
+			lBorrarFin(l)
+		SiNo
+			i <- l.primerLibre
+			Mientras l.arregloLista[i].siguiente != l.actual hacer
+				i <- l.arregloLista[i].siguiente
+			FinMientras
+			l.arregloLista[i].siguiente <- l.arregloLista[l.actual].siguiente
+			siguiente <- l.arregloLista[l.actual].siguiente
+			l.arregloLista[l.actual].siguiente <- l.primerLibre
+			l.actual <- siguiente
+		FinSi
+	FinSi
+FinProcedimiento
+
+Procedimiento lBuscar(ref l tLista, valor valor tClave, ref existe booleano)
+Variables
+	i:		entero
+Inicio
+	i <- l.primerOcupado
+	Mientras l.arregloLista[i].siguiente != 0 y
+		(
+			(l.ordenAscendente y l.arregloLista[i].valor.clave < valor)
+			o
+			(No(l.ordenAscendente) y l.arregloLista[i].valor.clave > valor)
+		) hacer
+		i <- l.arregloLista[i].siguiente
+	FinMientras
+	Si(l.arregloLista[i].valor.clave = valor) entonces
+		existe <- verdadero
+		l.actual <- i
+	SiNo
+		existe <- falso
+	FinSi
+FinProcedimiento
