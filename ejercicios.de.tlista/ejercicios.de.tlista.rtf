@@ -1,0 +1,115 @@
+Se tiene el archivo Alumnos, donde cada registro contiene Matrícula (cadena [8]), Nombre (cadena [30], y nota (entero). Se desea genera uno de los siguientes informes:
+a) INforma de alumnos ordenados por Matrícula
+b) Informe de alumnos ordenados alfabéticamente por NOmbre
+c) Informe de alumnos ordenados descendentemente por Nota
+El algoritmo permitirá ingresar una opción que indicará cuál es el informe a realizar
+
+Se les entrega el programa principal, y la resolución de las opciones 1 y 2. RESPETANDO estructuras de datos definidas ya,  y la estructura del algoritmo principal, deben realizar el procedimientos TRES. 
+
+Dado el archivo de alumnos, se desea realizar un algoritmo que permita, a elección del usuario mostrar un informe del alumnos, ordenado por a) matrícula en forma ascendente, b) alfabéticamente por Apellido y nomrbe, c) descendentemente por nota.
+ARCHIVO ALUMNOS
+-RegAlumno
+.Matrícula
+.Apynom
+.nota
+tClave= cadena[35]
+Tdato12=registro
+ 		Clave, otro: tclave
+		Nota: entero
+Freg
+Acción Informe Alumnos es
+Variables
+                Opción: carácter
+Mostrar(´’ Ingrese Opción (1. MatricAsc, 2. Alfabético, 3. Notadesc)’)
+Repetir
+              Ingresar (opción)
+Hasta opción >=’1’ y opción <=’3’
+Según opción
+ 1, 2: Unodos(opción)
+  3: Tres
+Fsegun
+Facción
+
+
+Proced. UNodos (Valor op:carácter)
+Variables
+	Arch: archivo de RegAlumno
+	Reg: regAlumno1
+            Dato: tdato12
+            L:tlista
+Lcrear (l)
+Abrir (arch)
+Leer (arch, reg)
+Mientras no fin (arch) y no Lllena(l) hacer
+             Si op =’1’ entonces dato.clave reg.matricula
+				Dato.otro reg.Apynom
+	Sino
+		Dato.clavereg.apynom
+		Dato.otroreg.matricula
+	Fsi
+	Dato.nota reg.nota
+	linsertarOrden(l, dato, ‘A’)
+	leer (arch, reg)
+fmientras
+si no lvacía(l) Y fin (arch) entonces
+	lppio (l)
+	linfo(l, dato)
+	mostrar (dato.clave, dato.otro, dato.nota)
+	lsig (l)
+	mientras no lfin(l) hacer
+		linfo (l,dato)
+		mostrar (dato.clave, dato.otro, dato.nota)
+		lsig(l)
+fmientras
+fsi
+fPROC
+
+Procedimiento Tres()
+Tipos
+    Registro tDato3
+        clave:          tClave(entero)  -> ¿Podemos hacer esto? Si no, tClaveEntero:   entero
+        matricula:      cadena
+        nombreCompleto: cadena
+    FinRegistro
+Variables
+    l:          tLista(tDato3)
+    archivo:    archivo(ARCHIVO-ALUMNOS)
+    registro:   regAlumno
+    dato:       tDato3
+Inicio
+    lCrear(l)
+    Abrir(archivo)
+    Leer(archivo, registro)
+    Mientras No(Fin(archivo)) y No(lLlena(l)) hacer
+        dato.clave <- registro.nota
+        dato.matricula <- registro.matricula
+        dato.nombreCompleto <- registro.apynom
+        lInsertarOrden(l, dato, "D")
+        Leer(archivo, registro)
+    FinMientras
+    Si(No(lVacia(l))) entonces
+        Si (lLlena(l) y No(Fin(archivo))) entonces
+            TratarError("La lista no soporta mas elementos, se mostrarán solamente los resultados que se pudieron procesar.")
+        FinSi
+        lPpio(l)
+        MostrarNotaDescendente(l)
+        Mientras No(lFin(l)) hacer
+            MostrarNotaDescendente(l)
+            lSig(l)
+        FinMientras
+    FinSi
+    Cerrar(archivo)
+FinProcedimiento
+
+Procedimiento TratarError(val valor cadena)
+Inicio
+	Mostrar("Error detectado: " + valor)
+FinProcedimiento
+
+Procedimiento MostrarNotaDescendente(ref l tLista)
+Variables
+    dato:       tDato3
+Inicio
+    lInfo(l, dato)
+    Mostrar(dato.clave, dato.matricula, dato.nombreCompleto)
+FinProcedimiento

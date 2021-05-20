@@ -81,6 +81,7 @@ Procedimiento	lBorrarPpio					(ref l tLista)								No(lVacia)
 Procedimiento	lBorrarFin					(ref l tLista)								No(lVacia)
 Procedimiento	lModificar					(ref l tLista, ref x tDato)
 Procedimiento	lInsertarOrden				(ref l tLista, ref x tDato, valor tOrden caracter)
+																						tDato.Clave
 Procedimiento	lBorrarActual				(ref l tLista)								No(lLlena) y No(lFin)
 Procedimiento	lBuscar						(ref l tLista, valor k tClave, ref existe booleano)
 																						tLista Ordenada
@@ -89,7 +90,7 @@ Notas:
 	El primer elemento se trata APARTE, para evitar el No(lFin) en listas circulares!
 	lBorrarActual: Al borrar queda en el siguiente elemento. Puede quedar tambien con lFin = verdadero
 	lBuscar: El actual queda posicionado en el encontrado. Si no encuentra, puede quedar en cualquier lado.
-
+	lInsertarOrden: tDato posee un campo clave:	tClave; tOrden acepta "A", "D"
 Procedimiento IngresarFecha(ref fecha tFecha)
 Variables
 
